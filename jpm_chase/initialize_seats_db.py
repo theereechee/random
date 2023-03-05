@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
 This module initializes the plane seats database file (seats.json).
 To run this module just execute the python file.

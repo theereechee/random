@@ -24,7 +24,9 @@ def parse_app_args():
         formatter_class=argparse.RawTextHelpFormatter,
         description="Process plane seat reservations",
     )
-    parser.add_argument("action", choices=("BOOK", "CANCEL"), help=action_help)
+    parser.add_argument(
+        "action", choices=("book", "cancel", "BOOK", "CANCEL"), help=action_help
+    )
     parser.add_argument("starting_seat", help="Starting Seat Position e.g A1")
     parser.add_argument(
         "num_seats",
