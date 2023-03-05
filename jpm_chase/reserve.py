@@ -15,6 +15,8 @@ SEATS_DB_FILE = initialize_seats_db.SEATS_DB_FILE
 
 # Handle command line arguments.
 def parse_app_args():
+    """Commandline Argument Parsing"""
+
     action_help = """
         BOOK = Starts the daemon (default)
         CANCEL = CANCEL reservation(s)
@@ -101,6 +103,7 @@ def cancel_seats(starting_seat, num_seats):
 
 
 def valid_requests(seats_reservation_state, starting_seat, num_seats):
+    """Check that the requests from commandline are valid with plane seating specifications"""
     # check if string length of starting seat complies with seat format.
     if len(starting_seat) < 2:
         return False
@@ -129,6 +132,7 @@ def valid_requests(seats_reservation_state, starting_seat, num_seats):
 
 # Main program
 def main():
+    """Script entrypoint"""
     # Parse command-line arguments
     args = parse_app_args()
     if args.action.upper() == "BOOK":
