@@ -10,12 +10,12 @@ import json
 import argparse
 import initialize_seats_db
 
-seats_db_file = initialize_seats_db.SEATS_DB_FILE
+SEATS_DB_FILE = initialize_seats_db.SEATS_DB_FILE
 
 
 # Handle command line arguments.
 def parse_app_args():
-    ActionHelp = """
+    action_help = """
         BOOK = Starts the daemon (default)
         CANCEL = CANCEL reservation(s)
         """
@@ -24,7 +24,7 @@ def parse_app_args():
         formatter_class=argparse.RawTextHelpFormatter,
         description="Process plane seat reservations",
     )
-    parser.add_argument("action", choices=("BOOK", "CANCEL"), help=ActionHelp)
+    parser.add_argument("action", choices=("BOOK", "CANCEL"), help=action_help)
     parser.add_argument("starting_seat", help="Starting Seat Position e.g A1")
     parser.add_argument(
         "num_seats",
@@ -38,17 +38,17 @@ def parse_app_args():
 # Define functions
 def read_seats_db():
     """Reads the seats database from file."""
-    if not os.path.isfile(seats_db_file):
+    if not os.path.isfile(SEATS_DB_FILE):
         initialize_seats_db.generate_plane_seats()
 
-    with open(seats_db_file, "r") as f:
+    with open(SEATS_DB_FILE, "r") as f:
         seats_db = json.load(f)
     return seats_db
 
 
 def write_reserved_seats(reserved_seats):
     """Writes the list of reserved seats to file."""
-    with open(seats_db_file, "w") as f:
+    with open(SEATS_DB_FILE, "w") as f:
         json.dump(reserved_seats, f, indent=4, sort_keys=True)
 
 
