@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+"""
+This module initializes the plane seats database file (seats.json).
+To run this module just execute the python file.
+"""
+
 import os.path
 import json
 import argparse
@@ -19,11 +24,13 @@ def parse_app_args():
         formatter_class=argparse.RawTextHelpFormatter,
         description="Process plane seat reservations",
     )
-    parser.add_argument(
-        "action", choices=("BOOK", "CANCEL"), help=ActionHelp
-    )
+    parser.add_argument("action", choices=("BOOK", "CANCEL"), help=ActionHelp)
     parser.add_argument("starting_seat", help="Starting Seat Position e.g A1")
-    parser.add_argument("num_seats", type=int, help="Number of consecutive seats to book (or cancel), from starting seat")
+    parser.add_argument(
+        "num_seats",
+        type=int,
+        help="Number of consecutive seats to book (or cancel), from starting seat",
+    )
 
     return parser.parse_args()
 
@@ -47,14 +54,15 @@ def write_reserved_seats(reserved_seats):
 
 def reserve_seats(starting_seat, num_seats):
     """Reserves the given number of seats starting from the given seat."""
-    row, starting_seat_num = starting_seat[0], int(starting_seat[1:])
 
     seats_reservation_state = read_seats_db()
-    row_seats = seats_reservation_state.get(row)
 
     # Check if requested seat parameters are valid
-    if not valid_requests(row_seats, starting_seat_num, num_seats):
+    if not valid_requests(seats_reservation_state, starting_seat, num_seats):
         return False
+    
+    row, starting_seat_num = starting_seat[0].upper(), int(starting_seat[1:])
+    row_seats = seats_reservation_state.get(row)
 
     # Fetch the requested seats.
     requested_seats = row_seats[starting_seat_num : starting_seat_num + num_seats]
@@ -73,14 +81,14 @@ def reserve_seats(starting_seat, num_seats):
 
 def cancel_seats(starting_seat, num_seats):
     """Cancels the reservation of the given number of seats starting from the given seat."""
-    row, starting_seat_num = starting_seat[0], int(starting_seat[1:])
 
     seats_reservation_state = read_seats_db()
-    row_seats = seats_reservation_state.get(row)
 
     # Check if requested seat parameters are valid
-    if not valid_requests(row_seats, starting_seat_num, num_seats):
+    if not valid_requests(seats_reservation_state, starting_seat, num_seats):
         return False
+    
+    row, starting_seat_num = starting_seat[0].upper(), int(starting_seat[1:])
 
     # Cancel the reservation of the requested seats
     for i in range(starting_seat_num, starting_seat_num + num_seats):
@@ -90,7 +98,18 @@ def cancel_seats(starting_seat, num_seats):
     return True
 
 
-def valid_requests(row_seats, starting_seat_num, num_seats):
+def valid_requests(seats_reservation_state, starting_seat, num_seats):
+    #check if string length of starting seat complies with seat format.
+    if len(starting_seat) < 2:
+        return False
+    
+    row, starting_seat_num = starting_seat[0].upper(), int(starting_seat[1:])
+    row_seats = seats_reservation_state.get(row)
+
+    # Check that the number of seats is positive number and number of seats is not greater than 6
+    if num_seats < 0 or num_seats > 6:
+        return False
+    
     # Check if the starting seat number is valid.
     if starting_seat_num not in list(range(6)):
         return False
@@ -110,9 +129,9 @@ def valid_requests(row_seats, starting_seat_num, num_seats):
 def main():
     # Parse command-line arguments
     args = parse_app_args()
-    if args.action == "BOOK":
+    if args.action.upper() == "BOOK":
         success = reserve_seats(args.starting_seat, args.num_seats)
-    if args.action == "CANCEL":
+    if args.action.upper() == "CANCEL":
         success = cancel_seats(args.starting_seat, args.num_seats)
 
     if success:
