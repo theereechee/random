@@ -60,7 +60,7 @@ def reserve_seats(starting_seat, num_seats):
     # Check if requested seat parameters are valid
     if not valid_requests(seats_reservation_state, starting_seat, num_seats):
         return False
-    
+
     row, starting_seat_num = starting_seat[0].upper(), int(starting_seat[1:])
     row_seats = seats_reservation_state.get(row)
 
@@ -87,7 +87,7 @@ def cancel_seats(starting_seat, num_seats):
     # Check if requested seat parameters are valid
     if not valid_requests(seats_reservation_state, starting_seat, num_seats):
         return False
-    
+
     row, starting_seat_num = starting_seat[0].upper(), int(starting_seat[1:])
 
     # Cancel the reservation of the requested seats
@@ -99,17 +99,17 @@ def cancel_seats(starting_seat, num_seats):
 
 
 def valid_requests(seats_reservation_state, starting_seat, num_seats):
-    #check if string length of starting seat complies with seat format.
+    # check if string length of starting seat complies with seat format.
     if len(starting_seat) < 2:
         return False
-    
+
     row, starting_seat_num = starting_seat[0].upper(), int(starting_seat[1:])
     row_seats = seats_reservation_state.get(row)
 
-    # Check that the number of seats is positive number and number of seats is not greater than 6
+    # Check that the number of seats is positive number and number of seats is not greater than 6 (width of plane)
     if num_seats < 0 or num_seats > 6:
         return False
-    
+
     # Check if the starting seat number is valid.
     if starting_seat_num not in list(range(6)):
         return False

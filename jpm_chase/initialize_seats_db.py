@@ -9,16 +9,16 @@ import string
 
 SEATS_DB_FILE = "seats.json"
 NUM_ROWS = 20
-seats_db = {}
+SEATS_DB = {}
 
 
 def generate_plane_seats():
     """Generate plane seats based on specifications in requirements file"""
     for row in string.ascii_uppercase[:NUM_ROWS]:
-        seats_db[row] = ["" for i in range(6)]
+        SEATS_DB[row] = ["" for i in range(6)]
 
     with open(SEATS_DB_FILE, "w") as f:
-        json.dump(seats_db, f, indent=4, sort_keys=True)
+        json.dump(SEATS_DB, f, indent=4, sort_keys=True)
 
 
 if __name__ == "__main__":
