@@ -11,6 +11,7 @@ import string
 
 SEATS_DB_FILE = "seats.json"
 PLANE_SEAT_WIDTH = 8
+AVAILABLE = ""
 NUM_ROWS = 20
 SEATS_DB = {}
 
@@ -18,7 +19,7 @@ SEATS_DB = {}
 def generate_plane_seats():
     """Generate plane seats based on specifications in requirements file"""
     for row in string.ascii_uppercase[:NUM_ROWS]:
-        SEATS_DB[row] = ["" for i in range(PLANE_SEAT_WIDTH)]
+        SEATS_DB[row] = [AVAILABLE for i in range(PLANE_SEAT_WIDTH)]
 
     with open(SEATS_DB_FILE, "w") as f:
         json.dump(SEATS_DB, f, indent=4, sort_keys=True)

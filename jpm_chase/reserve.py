@@ -11,6 +11,8 @@ import argparse
 import initialize_seats_db
 
 SEATS_DB_FILE = initialize_seats_db.SEATS_DB_FILE
+AVAILABLE = ""
+BOOKED = "BOOKED"
 
 
 # Handle command line arguments.
@@ -72,12 +74,12 @@ def reserve_seats(starting_seat, num_seats):
     requested_seats = row_seats[starting_seat_num : starting_seat_num + num_seats]
 
     # Check if the requested seats are available
-    if "BOOKED" in requested_seats:
+    if BOOKED in requested_seats:
         return False
 
     # Reserve the requested seats
     for i in range(starting_seat_num, starting_seat_num + num_seats):
-        seats_reservation_state[row][i] = "BOOKED"
+        seats_reservation_state[row][i] = BOOKED
 
     write_reserved_seats(seats_reservation_state)
     return True
@@ -96,7 +98,7 @@ def cancel_seats(starting_seat, num_seats):
 
     # Cancel the reservation of the requested seats
     for i in range(starting_seat_num, starting_seat_num + num_seats):
-        seats_reservation_state[row][i] = ""
+        seats_reservation_state[row][i] = AVAILABLE
 
     write_reserved_seats(seats_reservation_state)
     return True
