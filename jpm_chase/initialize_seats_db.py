@@ -17,7 +17,7 @@ SEATS_DB = {}
 def generate_plane_seats():
     """Generate plane seats based on specifications in requirements file"""
     for row in string.ascii_uppercase[:NUM_ROWS]:
-        SEATS_DB[row] = ["" for i in range(6)]
+        SEATS_DB[row] = ["" for i in range(8)]
 
     with open(SEATS_DB_FILE, "w") as f:
         json.dump(SEATS_DB, f, indent=4, sort_keys=True)
