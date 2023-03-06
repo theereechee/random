@@ -112,11 +112,11 @@ def valid_requests(seats_reservation_state, starting_seat, num_seats):
     row_seats = seats_reservation_state.get(row)
 
     # Check that the number of seats is positive number and number of seats is not greater than 8 (width of plane)
-    if num_seats < 0 or num_seats > 8:
+    if num_seats < 0 or num_seats > initialize_seats_db.PLANE_SEAT_WIDTH:
         return False
 
     # Check if the starting seat number is valid.
-    if starting_seat_num not in list(range(8)):
+    if starting_seat_num not in list(range(initialize_seats_db.PLANE_SEAT_WIDTH)):
         return False
 
     # Check if the requested row is available.
@@ -124,7 +124,7 @@ def valid_requests(seats_reservation_state, starting_seat, num_seats):
         return False
 
     # Check if the requested number of seats exceeds row capacity from starting seat.
-    if starting_seat_num + num_seats > 8:
+    if starting_seat_num + num_seats > initialize_seats_db.PLANE_SEAT_WIDTH:
         return False
 
     return True
